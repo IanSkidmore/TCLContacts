@@ -19,8 +19,16 @@ class TestPerson(unittest.TestCase):
         
     def test_initialisation(self):
         p = Person('Ian','Skidmore')     
-        self.assertEqual(p.Forename,'Ian')
-        self.assertEqual(p.Surname,'Skidmore')
+        self.assertEqual(p.FirstName(),'Ian')
+        self.assertEqual(p.FullName(),'Ian Skidmore')
+        self.assertEqual(p.FullNameWithInitials(),'I Skidmore')
+        self.assertEqual(p.Gender, None)
+        
+        p.Forenames.append('John')
+        self.assertEqual(p.FirstName(),'Ian')
+        self.assertEqual(p.FullName(),'Ian John Skidmore')
+        self.assertEqual(p.FullNameWithInitials(),'I J Skidmore')    
+        self.assertEqual(p.FullNameWithMiddleInitials(), 'Ian J Skidmore')
         
     def test_age_calculation(self):
         p = Person('Ian','Skidmore')
@@ -70,9 +78,9 @@ class TestPerson(unittest.TestCase):
         self.assertFalse(self.Person.HasPhone())          
         
     def test_has_email(self):
-        self.assertFalse(self.Person.HasEmailAddress())        
-        self.Person.EmailAddress = 'This is a fake emailaddress'
-        self.assertFalse(self.Person.HasEmailAddress())
-        self.Person.EmailAddress = 'adam.skidmore@btinternet.com'
-        self.assertTrue(self.Person.HasEmailAddress())        
+        self.assertFalse(self.Person.HasEMailAddress())        
+        self.Person.EMailAddress = 'This is a fake emailaddress'
+        self.assertFalse(self.Person.HasEMailAddress())
+        self.Person.EMailAddress = 'adam.skidmore@btinternet.com'
+        self.assertTrue(self.Person.HasEMailAddress())        
     

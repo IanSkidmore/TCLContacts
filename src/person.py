@@ -9,8 +9,41 @@ from datetime import date
 class Person():
     
     def __init__(self,f,s):
-        self.Forename = f
-        self.Surname = s
+        self.Forenames = []
+        self.Surnames = []
+        self.Forenames.append(f)
+        self.Surnames.append(s)
+        self.Gender = None
+        self.MobilePhoneNumber = None
+        self.LandlinePhoneNumber = None
+        self.EMailAddress = None
+        
+    def FirstName(self):
+        return self.Forenames[0]
+        
+    def FullName(self):
+        name = self.FirstName()
+        for i in self.Forenames[1:]:
+            name += ' ' + i
+        for i in self.Surnames:
+            name += ' ' + i
+        return name
+        
+    def FullNameWithInitials(self):
+        name = self.FirstName()[0]
+        for i in self.Forenames[1:]:
+            name += ' ' + i[0]
+        for i in self.Surnames:
+            name += ' ' + i
+        return name
+        
+    def FullNameWithMiddleInitials(self):
+        name = self.FirstName()
+        for i in self.Forenames[1:]:
+            name += ' ' + i[0]
+        for i in self.Surnames:
+            name += ' ' + i
+        return name
         
     def AgeOnDate(self, theDay):
         try: 
@@ -41,11 +74,13 @@ class Person():
     def HasPhone(self):
         return self.HasLandlinePhone() or self.HasMobilePhone()
         
-    def HasEmailAddress(self):
+    def HasEMailAddress(self):
         import re
         EMAIL_REGEX = '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,63}$'
         try:
-            return re.match(EMAIL_REGEX, self.EmailAddress) is not None
+            if self.EMailAddress is None:
+                return False
+            return re.match(EMAIL_REGEX, self.EMailAddress) is not None
         except AttributeError:
             return False        
         
