@@ -17,7 +17,7 @@ class TestPerson(unittest.TestCase):
     def tearDown(self):
         self.Person = None
         
-    def test_initialisation(self):
+    def test_person_initialisation(self):
         p = Person('Ian','Skidmore')     
         self.assertEqual(p.FirstName(),'Ian')
         self.assertEqual(p.FullName(),'Ian Skidmore')
