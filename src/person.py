@@ -5,18 +5,31 @@ Created on Wed Mar 23 15:39:56 2016
 @author: IAN
 """
 from datetime import date
+import json
 
 class Person():
     
-    def __init__(self,f,s):
+    def __init__(self,f='',s=''):
         self.Forenames = []
         self.Surnames = []
-        self.Forenames.append(f)
-        self.Surnames.append(s)
+        if len(f) > 0: self.Forenames.append(f)
+        if len(s) > 0: self.Surnames.append(s)
         self.Gender = None
         self.MobilePhoneNumber = None
         self.LandlinePhoneNumber = None
         self.EMailAddress = None
+        
+    def to_JSON(self):
+        return json.dumps(self.__dict__)
+        
+    def LoadFromJSON(self,s):        
+        o = json.loads(s)
+        self.Forenames = o['Forenames']
+        self.Surnames = o['Surnames']
+        self.Gender = o['Gender']      
+        self.MobilePhoneNumber = o['MobilePhoneNumber']
+        self.LandlinePhoneNumber = o['LandlinePhoneNumber']
+        self.EMailAddress = o['EMailAddress']
         
     def FirstName(self):
         return self.Forenames[0]

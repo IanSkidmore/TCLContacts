@@ -83,4 +83,19 @@ class TestPerson(unittest.TestCase):
         self.assertFalse(self.Person.HasEMailAddress())
         self.Person.EMailAddress = 'adam.skidmore@btinternet.com'
         self.assertTrue(self.Person.HasEMailAddress())        
-    
+
+    def test_serialise(self):
+        exp = '{"LandlinePhoneNumber": null, "Forenames": ["Adam"], "Gender": null, "Surnames": ["Skidmore"], "EMailAddress": null, "MobilePhoneNumber": null}'
+        s = self.Person.to_JSON()
+        self.assertEqual(s,exp)
+        
+    def test_deserialise(self):
+        s = self.Person.to_JSON()
+        p = Person()   
+        p.LoadFromJSON(s)
+        self.assertEqual(p.Forenames, self.Person.Forenames)
+        self.assertEqual(p.Surnames, self.Person.Surnames)    
+        self.assertEqual(p.Gender, self.Person.Gender)
+        self.assertEqual(p.EMailAddress, self.Person.EMailAddress) 
+        self.assertEqual(p.MobilePhoneNumber, self.Person.MobilePhoneNumber)
+        self.assertEqual(p.LandlinePhoneNumber, self.Person.LandlinePhoneNumber)          
