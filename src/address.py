@@ -6,13 +6,13 @@ Created on Sat Apr 02 16:41:06 2016
 """
 import datetime
 import json
-#from country import Country
+from country import Country
 
 class Address():
     def __init__(self,s='',t=''):
         self.StreetName = s
         self.Town = t
-        #self.Country = Country()
+        self.Country = Country()
         self.PAFValidationDate = None
         self.FlatName = None
         self.HouseName = None
@@ -21,15 +21,21 @@ class Address():
         self.County = None
         self.PostCode = None
         self.AddressLines = []
+    
+    def _complexHandler(self, Obj):
+        if hasattr(Obj, 'to_JSON'):
+            return Obj.to_JSON()
+        else:
+            raise TypeError, 'Object of type %s with value of %s is not JSON serializable' % (type(Obj), repr(Obj))
         
     def to_JSON(self):
-        return json.dumps(self.__dict__)
+        return json.dumps(self.__dict__, default=self._complexHandler)
         
     def LoadFromJSON(self,s):        
         o = json.loads(s)
         self.StreetName = o['StreetName']  
         self.Town = o['Town']  
-        #self.Country.LoadFromJSON(o['Country'])  
+        self.Country.LoadFromJSON(o['Country'])  
         self.PAFValidationDate = o['PAFValidationDate']  
         self.FlatName = o['FlatName']  
         self.HouseName = o['HouseName']  

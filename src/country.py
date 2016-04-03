@@ -11,7 +11,8 @@ class Country():
         self.Name = n
         
     def to_JSON(self):
-        return json.dumps(self.__dict__)
+        d = dict(Name=self.Name)
+        return json.dumps(d)
         
     def LoadFromJSON(self,s):        
         o = json.loads(s)

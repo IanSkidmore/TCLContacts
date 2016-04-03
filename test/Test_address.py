@@ -94,15 +94,18 @@ class TestAddress(unittest.TestCase):
         self.assertEqual(self.Address.Country.Name, 'United Kingdom')        
         
     def test_serialise(self):
-        exp = '{"Town": "Nottingham", "HouseNumber": "1", "FlatName": null, "PAFValidationDate": null, "County": null, "PostCode": "NG7 9AN", "LocalityName": null, "HouseName": null, "StreetName": "Barrack Lane", "AddressLines": []}'
+        self.Address.Country.Name = 'United Kingdom'
+        exp = '{"Town": "Nottingham", "Country": "{\\"Name\\": \\"United Kingdom\\"}", "FlatName": null, "PAFValidationDate": null, "County": null, "HouseNumber": "1", "PostCode": "NG7 9AN", "LocalityName": null, "HouseName": null, "StreetName": "Barrack Lane", "AddressLines": []}'
         s = self.Address.to_JSON()
         self.assertEqual(s,exp)
         
     def test_deserialise(self):
+        self.Address.Country.Name = 'United Kingdom'        
         s = self.Address.to_JSON()
         a = Address()   
         a.LoadFromJSON(s)
         self.assertEqual(a.HouseNumber, self.Address.HouseNumber)          
         self.assertEqual(a.StreetName, self.Address.StreetName) 
         self.assertEqual(a.Town, self.Address.Town) 
-        self.assertEqual(a.PostCode, self.Address.PostCode)         
+        self.assertEqual(a.PostCode, self.Address.PostCode)    
+        self.assertEqual(a.Country.Name, self.Address.Country.Name)           

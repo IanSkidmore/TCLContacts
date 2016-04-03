@@ -18,8 +18,14 @@ class Organisation():
     def IsClient(self):
         return self.ClientFlag        
         
+    def _complexHandler(self, Obj):
+        if hasattr(Obj, 'to_JSON'):
+            return Obj.to_JSON()
+        else:
+            raise TypeError, 'Object of type %s with value of %s is not JSON serializable' % (type(Obj), repr(Obj))
+        
     def to_JSON(self):
-        return json.dumps(self.__dict__)
+        return json.dumps(self.__dict__, default=self._complexHandler)
         
     def LoadFromJSON(self,s):        
         o = json.loads(s)
