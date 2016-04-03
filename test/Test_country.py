@@ -18,3 +18,14 @@ class TestPerson(unittest.TestCase):
         
     def test_country_initialisation(self):
         self.assertEqual(self.Country.Name, 'United Kingdom')
+        
+    def test_serialise(self):
+        exp = '{"Name": "United Kingdom"}'
+        s = self.Country.to_JSON()
+        self.assertEqual(s,exp)
+        
+    def test_deserialise(self):
+        s = self.Country.to_JSON()
+        c = Country()   
+        c.LoadFromJSON(s)
+        self.assertEqual(c.Name, self.Country.Name)          

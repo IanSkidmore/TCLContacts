@@ -47,3 +47,14 @@ class TestOrganisation(unittest.TestCase):
         self.assertEqual(self.Organisation.Address.Town, 'Nottingham')
         self.assertEqual(self.Organisation.Address.PostCode, 'NG9 6HF')
         self.assertEqual(self.Organisation.Address.Country.Name, 'United Kingdom')
+        
+    def test_serialise(self):
+        exp = '{"ClientFlag": false, "SupplierFlag": false, "Name": "Thorneycreek Consulting Ltd"}'
+        s = self.Organisation.to_JSON()
+        self.assertEqual(s,exp)
+        
+    def test_deserialise(self):
+        s = self.Organisation.to_JSON()
+        o = Organisation()   
+        o.LoadFromJSON(s)
+        self.assertEqual(o.Name, self.Organisation.Name)         
