@@ -5,12 +5,14 @@ Created on Sat Apr 02 16:41:06 2016
 @author: IAN
 """
 import datetime
+import json
+#from country import Country
 
 class Address():
-    def __init__(self,s,t):
+    def __init__(self,s='',t=''):
         self.StreetName = s
         self.Town = t
-        self.Country = None
+        #self.Country = Country()
         self.PAFValidationDate = None
         self.FlatName = None
         self.HouseName = None
@@ -19,6 +21,23 @@ class Address():
         self.County = None
         self.PostCode = None
         self.AddressLines = []
+        
+    def to_JSON(self):
+        return json.dumps(self.__dict__)
+        
+    def LoadFromJSON(self,s):        
+        o = json.loads(s)
+        self.StreetName = o['StreetName']  
+        self.Town = o['Town']  
+        #self.Country.LoadFromJSON(o['Country'])  
+        self.PAFValidationDate = o['PAFValidationDate']  
+        self.FlatName = o['FlatName']  
+        self.HouseName = o['HouseName']  
+        self.HouseNumber = o['HouseNumber']  
+        self.LocalityName = o['LocalityName']  
+        self.County = o['County']  
+        self.PostCode = o['PostCode']  
+        self.AddressLines = o['AddressLines']  
         
     def IsPAFValidated(self):
         return self.PAFValidationDate is not None

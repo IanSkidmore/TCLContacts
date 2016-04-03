@@ -22,7 +22,6 @@ class TestAddress(unittest.TestCase):
     def test_address_initialisation(self):
         self.assertEqual(self.Address.StreetName, 'Barrack Lane')
         self.assertEqual(self.Address.Town, 'Nottingham')
-        self.assertEqual(self.Address.Country, None)
         self.assertFalse(self.Address.IsPAFValidated())
         
     def test_paf_validation(self):
@@ -93,3 +92,17 @@ class TestAddress(unittest.TestCase):
     def test_country_allocation(self):
         self.Address.Country = Country('United Kingdom')
         self.assertEqual(self.Address.Country.Name, 'United Kingdom')        
+        
+    def test_serialise(self):
+        exp = '{"Town": "Nottingham", "HouseNumber": "1", "FlatName": null, "PAFValidationDate": null, "County": null, "PostCode": "NG7 9AN", "LocalityName": null, "HouseName": null, "StreetName": "Barrack Lane", "AddressLines": []}'
+        s = self.Address.to_JSON()
+        self.assertEqual(s,exp)
+        
+    def test_deserialise(self):
+        s = self.Address.to_JSON()
+        a = Address()   
+        a.LoadFromJSON(s)
+        self.assertEqual(a.HouseNumber, self.Address.HouseNumber)          
+        self.assertEqual(a.StreetName, self.Address.StreetName) 
+        self.assertEqual(a.Town, self.Address.Town) 
+        self.assertEqual(a.PostCode, self.Address.PostCode)         
